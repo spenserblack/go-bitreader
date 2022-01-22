@@ -1,6 +1,10 @@
 package bitreader
 
-import "testing"
+import (
+	"bytes"
+	"io"
+	"testing"
+)
 
 // TestIncIndex tests that the index will increment or wrap.
 func TestIncIndex(t *testing.T) {
@@ -34,5 +38,33 @@ func TestNewBitReader(t *testing.T) {
 	}
 	if r.index != 0 {
 		t.Fatalf(`r.index = %v, want 0`, r.index)
+	}
+}
+
+// TestReadBit tests that a single bit can be read.
+func TestReadBit(t *testing.T) {
+	buff := bytes.NewBuffer([]byte{0xF0, 0xA5, 0x08})
+	tests := []struct {
+		want Bit
+		err error
+	}{
+		{1}, {1}, {1}, {1}, // F
+		{0}, {0}, {0}, {0}, // 0
+		{1}, {0}, {1}, {0}, // A
+		{0}, {1}, {0}, {1}, // 5
+		{0}, {0}, {0}, {0}, // 0
+		{1}, {0}, {0}, {0, io.EOF}, // 8
+	}
+	r := New(buff, 2)
+
+	for i, tt := range tests {
+		t.Logf(`bit %d`, i)
+		bit, err := r.ReadBit()
+		if bit != tt.want {
+			t.Errorf(`bit = %d, want %d`, bit, tt.want))
+		}
+		if err != tt.err {
+			t.Fatalf(`err = %v, want %v`, err, tt.err)
+		}
 	}
 }
