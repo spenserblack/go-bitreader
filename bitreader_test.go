@@ -51,14 +51,13 @@ func TestReadBit(t *testing.T) {
 	buff := bytes.NewBuffer([]byte{0xF0, 0xA5, 0x08})
 	tests := []struct {
 		want Bit
-		err error
 	}{
-		{1, nil}, {1, nil}, {1, nil}, {1, nil}, // F
-		{0, nil}, {0, nil}, {0, nil}, {0, nil}, // 0
-		{1, nil}, {0, nil}, {1, nil}, {0, nil}, // A
-		{0, nil}, {1, nil}, {0, nil}, {1, nil}, // 5
-		{0, nil}, {0, nil}, {0, nil}, {0, nil}, // 0
-		{1, nil}, {0, nil}, {0, nil}, {0, io.EOF}, // 8
+		{1}, {1}, {1}, {1}, // F
+		{0}, {0}, {0}, {0}, // 0
+		{1}, {0}, {1}, {0}, // A
+		{0}, {1}, {0}, {1}, // 5
+		{0}, {0}, {0}, {0}, // 0
+		{1}, {0}, {0}, {0}, // 8
 	}
 	r := New(buff, 2)
 
@@ -68,8 +67,11 @@ func TestReadBit(t *testing.T) {
 		if bit != tt.want {
 			t.Errorf(`bit = %d, want %d`, bit, tt.want)
 		}
-		if err != tt.err {
+		if err != nil {
 			t.Fatalf(`err = %v, want %v`, err, tt.err)
 		}
+	}
+	if _, err := r.ReadBit(); err != io.EOF {
+		t.Fatalf(`err = %v, want io.EOF`, err)
 	}
 }
