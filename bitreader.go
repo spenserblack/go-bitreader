@@ -15,7 +15,7 @@ type Reader struct {
 	// Bytes stores the bytes that are read from the reader. When the last
 	// available bit is read, the next set of bytes will be read from R. The
 	// length of Bytes can be though of as the chunk size.
-	Bytes  []byte
+	bytes  [1]byte
 	// Index is the index of the bit.
 	index  int
 }
@@ -24,9 +24,8 @@ type Reader struct {
  func (r *Reader) ReadBit() (Bit, error) {
 	var err error
 	if r.index == 0 {
-		_, err = r.R.Read(r.Bytes)
+		_, err = r.R.Read(r.bytes[:])
 	}
-	byteIndex := r.index / byteSize
 	bitIndex := r.index % byteSize
 	b := r.Bytes[byteIndex] >> (7 - bitIndex)
 	b &= 1 // Normalize
@@ -37,7 +36,5 @@ type Reader struct {
 // reached.
 func (r *Reader) incIndex() {
 	r.index++
-	if r.index >= len(r.Bytes) * byteSize {
-		r.index = 0
-	}
+	r.index %= 8
 }
