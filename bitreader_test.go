@@ -22,3 +22,17 @@ func TestIncIndex(t *testing.T) {
 		}
 	}
 }
+
+// TestNewBitReader tests that a new bit reader is properly created.
+func TestNewBitReader(t *testing.T) {
+	r := New(nil, 4)
+	if r.r != nil {
+		t.Fatalf(`r.r = %v, want nil`, r.r)
+	}
+	if l := len(r.bytes); l != 4 {
+		t.Fatalf(`len(r.bytes) = %v, want 4`, l)
+	}
+	if r.index != 0 {
+		t.Fatalf(`r.index = %v, want 0`, r.index)
+	}
+}
