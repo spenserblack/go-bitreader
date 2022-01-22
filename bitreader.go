@@ -1,3 +1,4 @@
+// Read individual bits instead of bytes.
 package bitreader
 
 import "io"
