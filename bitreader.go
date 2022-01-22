@@ -18,6 +18,11 @@ type Reader struct {
 	bytes []byte
 	// Index is the index of the bit.
 	index int
+	// Err is the error returned by the underlying reader that should be
+	// returned when all bits are read.
+	err error
+	// Avail is the number of available bytes that can be read.
+	avail int
 }
 
 // New creates a new bit reader. The amount of bytes to be read at a time is
@@ -33,7 +38,10 @@ func New(r io.Reader, chunkSize int) *Reader {
  func (r *Reader) ReadBit() (Bit, error) {
 	var err error
 	if r.index == 0 {
-		_, err = r.r.Read(r.bytes)
+		r.avail, r.err = r.r.Read(r.bytes)
+	}
+	if r.avail == 0 || r.byteIndex() > r.avail {
+		err = r.err
 	}
 	b := r.currentBit()
 	r.incIndex()
