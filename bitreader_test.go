@@ -9,12 +9,17 @@ import (
 // TestIncIndex tests that the index will increment or wrap.
 func TestIncIndex(t *testing.T) {
 	tests := []struct{
+		bytes   int
 		index   int
 		want    int
-	}{{0, 1}, {7, 0}}
+	}{
+		{1, 0, 1}, {1, 7, 0},
+		{2, 0, 1}, {2, 7, 8}, {2, 15, 0},
+	}
 
 	for _, tt := range tests {
 		r := &Reader{
+			bytes: make([]byte, tt.bytes),
 			index: tt.index,
 		}
 		r.incIndex()
