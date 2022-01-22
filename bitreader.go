@@ -40,11 +40,13 @@ func New(r io.Reader, chunkSize int) *Reader {
 	if r.index == 0 {
 		r.avail, r.err = r.r.Read(r.bytes)
 	}
+
+	b := r.currentBit()
 	if r.avail == 0 || r.byteIndex() > r.avail {
 		err = r.err
+	} else {
+		r.incIndex()
 	}
-	b := r.currentBit()
-	r.incIndex()
 	return b, err
  }
 
