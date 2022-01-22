@@ -27,7 +27,7 @@ type Reader struct {
 		_, err = r.R.Read(r.bytes[:])
 	}
 	bitIndex := r.index % byteSize
-	b := r.bytes[byteIndex] >> (7 - bitIndex)
+	b := r.bytes[0] >> (7 - bitIndex)
 	b &= 1 // Normalize
 	return b, err
  }
