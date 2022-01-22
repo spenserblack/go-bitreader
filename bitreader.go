@@ -22,8 +22,8 @@ type Reader struct {
 
 // New creates a new bit reader. The amount of bytes to be read at a time is
 // set by chunkSize.
-func New(r io.Reader, chunkSize int) Reader {
-	return Reader{
+func New(r io.Reader, chunkSize int) *Reader {
+	return &Reader{
 		r: r,
 		bytes: make([]byte, chunkSize),
 	}
