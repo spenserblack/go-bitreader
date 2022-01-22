@@ -63,7 +63,7 @@ func TestReadBit(t *testing.T) {
 	r := New(buff, 2)
 
 	for i, tt := range tests {
-		t.Logf(`bit %d`, i)
+		t.Logf(`bit %d (index %d)`, i, r.index)
 		bit, err := r.ReadBit()
 		if bit != tt.want {
 			t.Errorf(`bit = %d, want %d`, bit, tt.want)
