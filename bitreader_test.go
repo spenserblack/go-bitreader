@@ -61,7 +61,7 @@ func TestReadBit(t *testing.T) {
 		t.Logf(`bit %d`, i)
 		bit, err := r.ReadBit()
 		if bit != tt.want {
-			t.Errorf(`bit = %d, want %d`, bit, tt.want))
+			t.Errorf(`bit = %d, want %d`, bit, tt.want)
 		}
 		if err != tt.err {
 			t.Fatalf(`err = %v, want %v`, err, tt.err)
