@@ -20,6 +20,7 @@ func TestIncIndex(t *testing.T) {
 	for _, tt := range tests {
 		r := &Reader{
 			bytes: make([]byte, tt.bytes),
+			avail: tt.bytes,
 			index: tt.index,
 		}
 		r.incIndex()

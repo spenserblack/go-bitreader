@@ -52,7 +52,7 @@ func New(r io.Reader, chunkSize int) *Reader {
 // reached.
 func (r *Reader) incIndex() {
 	r.index++
-	r.index %= len(r.bytes) * byteSize
+	r.index %= r.avail * byteSize
 }
 
 // ByteIndex gets the index of the byte that the bit is read from.
