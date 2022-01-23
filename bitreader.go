@@ -61,7 +61,7 @@ func New(r io.Reader, chunkSize int) *Reader {
 			return
 		}
 		bits <<= 1
-		bits |= int(b)
+		bits |= uint(b)
 	}
 	return
  }
