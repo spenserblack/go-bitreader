@@ -8,10 +8,10 @@ import (
 
 // TestIncIndex tests that the index will increment or wrap.
 func TestIncIndex(t *testing.T) {
-	tests := []struct{
-		bytes   int
-		index   int
-		want    int
+	tests := []struct {
+		bytes int
+		index int
+		want  int
 	}{
 		{1, 0, 1}, {1, 7, 0},
 		{2, 0, 1}, {2, 7, 8}, {2, 15, 0},
@@ -26,7 +26,7 @@ func TestIncIndex(t *testing.T) {
 		r.incIndex()
 		if r.index != tt.want {
 			t.Errorf(
-				`Increment from %d = %d, want %d`, 
+				`Increment from %d = %d, want %d`,
 				tt.index, r.index, tt.want,
 			)
 		}

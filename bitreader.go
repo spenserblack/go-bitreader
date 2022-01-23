@@ -30,13 +30,13 @@ type Reader struct {
 // set by chunkSize.
 func New(r io.Reader, chunkSize int) *Reader {
 	return &Reader{
-		r: r,
+		r:     r,
 		bytes: make([]byte, chunkSize),
 	}
 }
 
- // ReadBit reads a single bit.
- func (r *Reader) ReadBit() (Bit, error) {
+// ReadBit reads a single bit.
+func (r *Reader) ReadBit() (Bit, error) {
 	var err error
 	if r.index == 0 {
 		r.avail, r.err = r.r.Read(r.bytes)
@@ -49,12 +49,12 @@ func New(r io.Reader, chunkSize int) *Reader {
 		r.incIndex()
 	}
 	return b, err
- }
+}
 
- // ReadBits reads attempts to read n bits, and returns those bits collected
- // into an int, the actual amount read, and any error that might have
- // occurred.
- func (r *Reader) ReadBits(n int) (bits uint, read int, err error) {
+// ReadBits reads attempts to read n bits, and returns those bits collected
+// into an int, the actual amount read, and any error that might have
+// occurred.
+func (r *Reader) ReadBits(n int) (bits uint, read int, err error) {
 	for read = 0; read < n; read++ {
 		var b Bit
 		b, err = r.ReadBit()
@@ -65,7 +65,7 @@ func New(r io.Reader, chunkSize int) *Reader {
 		bits |= uint(b)
 	}
 	return
- }
+}
 
 // IncIndex increments the index, and loops it to 0 when the max index is
 // reached.
