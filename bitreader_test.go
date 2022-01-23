@@ -76,3 +76,30 @@ func TestReadBit(t *testing.T) {
 		t.Fatalf(`err = %v, want io.EOF`, err)
 	}
 }
+
+// TestReadBits tests that multiple bits can be read.
+func TestReadBits(t *testing.T) {
+	buff := bytes.NewBuffer([]byte{0x01, 0x2F, 0xED})
+	r := New(buff, 3)
+	tests := []struct {
+		want uint
+	}{{0x012}, {0xFED}}
+
+	for i, tt := range tests {
+		t.Logf(`Test %d`, i)
+		bits, read, err := r.ReadBits(12)
+		if bits != tt.want {
+			t.Fatalf(`bits = %d, want %d`, bits, tt.want)
+		}
+		if read != 12 {
+			t.Fatalf(`read = %d, want 12`, read)
+		}
+		if err != nil {
+			t.Fatalf(`err = %v, want nil`, err)
+		}
+	}
+	_, _, err := r.ReadBits(1)
+	if err != io.EOF {
+		t.Fatalf(`err = %v, want io.EOF`, err)
+	}
+}

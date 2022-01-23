@@ -51,6 +51,22 @@ func New(r io.Reader, chunkSize int) *Reader {
 	return b, err
  }
 
+ // ReadBits reads attempts to read n bits, and returns those bits collected
+ // into an int, the actual amount read, and any error that might have
+ // occurred.
+ func (r *Reader) ReadBits(n int) (bits uint, read int, err error) {
+	for read = 0; read < n; read++ {
+		var b Bit
+		b, err = r.ReadBit()
+		if err != nil {
+			return
+		}
+		bits <<= 1
+		bits |= uint(b)
+	}
+	return
+ }
+
 // IncIndex increments the index, and loops it to 0 when the max index is
 // reached.
 func (r *Reader) incIndex() {
