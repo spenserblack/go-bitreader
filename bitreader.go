@@ -1,4 +1,5 @@
-// Read individual bits instead of bytes.
+// Package bitreader provides the bitreader.Reader type for reading individual
+// bits instead of bytes.
 package bitreader
 
 import "io"
