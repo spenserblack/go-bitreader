@@ -82,7 +82,7 @@ func TestReadBits(t *testing.T) {
 	buff := bytes.NewBuffer([]byte{0x01, 0x2F, 0xED})
 	r := New(buff, 3)
 	tests := []struct {
-		want int
+		want uint
 	}{{0x012}, {0xFED}}
 
 	for i, tt := range tests {
